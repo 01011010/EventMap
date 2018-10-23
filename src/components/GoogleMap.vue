@@ -1,10 +1,5 @@
 <template>
   <div>
-    <p>
-      <input v-model="newMarker"> 
-      <button @click="addMarker">Add Marker</button>
-    </p>
-
     <h2>Search and add a pin</h2>
     <label>
       <gmap-autocomplete
@@ -45,7 +40,7 @@
 import {gmapApi} from 'vue2-google-maps';
 
 var oxford = {lat: 51.7520, lng: -1.2577};
-
+    
 export default {
   computed: {
     google: gmapApi
@@ -89,11 +84,15 @@ export default {
     
     console.log("Calling populate markers...")
     this.getMarkers();
+    
+    this.toast('Map Loaded!')
 
   },
 
   methods: {
-
+    toast(message){
+      this.$toasted.success(message);
+    },
     /*
      * Add a marker to the localStorage, and save it.
      */
@@ -134,10 +133,7 @@ export default {
             localStorage.removeItem('markers');
           }
       }
-
-
       console.log("These are the markers: " + this.markers);
-
     },
 
     /*
@@ -180,20 +176,7 @@ export default {
       }
 
     },
-/*
-    addMarker() {
-      if (this.currentPlace) {
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
-        };
-        this.markers.push({ position: marker , title: 'meh'});
-        this.places.push(this.currentPlace);
-        this.center = marker;
-        this.currentPlace = null;
-      }
-    },
-*/
+
     geolocate: function() {
       console.log("Running geolocate function");
       navigator.geolocation.getCurrentPosition(position => {
